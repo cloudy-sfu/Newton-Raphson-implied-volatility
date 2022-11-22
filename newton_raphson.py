@@ -19,12 +19,14 @@ with open('call_options.pkl', 'rb') as f:
 n = s.shape[0]
 vega = np.zeros((n, max_iteration))
 sigma = np.zeros((n, max_iteration + 1))
+c_hat = np.zeros((n, max_iteration + 1))
 sigma[:, 0] = np.sqrt(2 / t * np.abs(np.log(s / k) + r * t))
+c_hat[:, 0] = call_value(s, k, t, r, sigma[:, 0])
 for i in range(max_iteration):
     vega[:, i] = call_vega(s, k, t, r, sigma[:, i])
-    c_hat = call_value(s, k, t, r, sigma[:, i])
-    sigma[:, i + 1] = sigma[:, i] - (c_hat - c) / vega[:, i]
-    print('Iteration:', i + 1, 'MSE:', mean_squared_error(c, c_hat))  # MSE of the call option value
+    sigma[:, i + 1] = sigma[:, i] - (c_hat[:, i] - c) / vega[:, i]
+    c_hat[:, i + 1] = call_value(s, k, t, r, sigma[:, i + 1])
+    print('Iteration:', i + 1, 'MSE:', mean_squared_error(c, c_hat[:, i + 1]))  # MSE of the call option value
 
 with open('volatility.pkl', 'wb') as f:
     pickle.dump(sigma[:, max_iteration], f)
