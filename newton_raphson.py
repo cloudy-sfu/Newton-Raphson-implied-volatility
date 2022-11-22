@@ -9,7 +9,7 @@ from bsm import call_value, call_vega
 
 max_iteration = 10
 
-with open('data/call_options.pkl', 'rb') as f:
+with open('call_options.pkl', 'rb') as f:
     s, k, t, r, c = pickle.load(f)
 # Assumptions:
 # *Observations that do not satisfy assumptions are picked out in pre-processing.*
@@ -26,5 +26,5 @@ for i in range(max_iteration):
     sigma[:, i + 1] = sigma[:, i] - (c_hat - c) / vega[:, i]
     print('Iteration:', i + 1, 'MSE:', mean_squared_error(c, c_hat))  # MSE of the call option value
 
-with open('results/volatility_newton.pkl', 'wb') as f:
+with open('volatility.pkl', 'wb') as f:
     pickle.dump(sigma[:, max_iteration], f)
