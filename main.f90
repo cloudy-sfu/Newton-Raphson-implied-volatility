@@ -11,7 +11,7 @@ program main
 
     ! define constants
     implicit none
-    integer, parameter :: max_iteration = 4
+    integer, parameter :: max_iteration = 10
 
     ! define variables (must come before other statements)
     integer :: n
@@ -20,7 +20,6 @@ program main
     real(8), allocatable :: vega(:, :), sigma(:, :), c_hat(:, :)
     integer :: i
     real(8) :: mse_val
-    real(8), allocatable :: out(:, :)
 
     ! get data (modify on input variables)
     ! file token 0 is used.
@@ -39,11 +38,5 @@ program main
         ", Finite ratio: ", convergent_ratio(c_hat(:, i+1))
     end do
 
-    allocate(out(n, 4))
-    out(:, 1) = s
-    out(:, 2) = k
-    out(:, 3) = t
-    out(:, 4) = sigma(:, 1)
-    call to_csv_2d(out, "test1.csv")
-
+    call to_bin_1d(sigma(:, max_iteration+1), "volatility")
 end program main

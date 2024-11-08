@@ -41,4 +41,36 @@ contains
         close(f)
         f = f + 1
     end subroutine
+
+    subroutine to_csv_1d(mat, filepath)
+        use, intrinsic :: iso_fortran_env, only: iostat_end
+        real(8), intent(in) :: mat(:)
+        integer :: n, i
+        character(len=*) :: filepath
+        open(unit=f, file=filepath, status='unknown')
+        n = size(mat, 1)
+        do i = 1, n
+            write(f, '(F12.5)') mat(i)
+        end do
+        close(f)
+        f = f + 1
+    end subroutine
+
+    subroutine to_bin_2d(mat, filepath)
+        real(8), intent(in) :: mat(:, :)
+        character(len=*) :: filepath
+        open(unit=f, file=filepath, form="unformatted", access="stream")
+        write(f) mat
+        close(f)
+        f = f + 1
+    end subroutine
+
+    subroutine to_bin_1d(mat, filepath)
+        real(8), intent(in) :: mat(:)
+        character(len=*) :: filepath
+        open(unit=f, file=filepath, form="unformatted", access="stream")
+        write(f) mat
+        close(f)
+        f = f + 1
+    end subroutine
 end module get_data_mod
