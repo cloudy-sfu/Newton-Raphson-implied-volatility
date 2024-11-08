@@ -41,7 +41,9 @@ load call_options.mat;
 f = fopen("call_options", "w");
 fwrite(f, n, "uint32");
 fwrite(f, r, "double");
-fwrite(f, [c, k, s, t]', "double");
+% different from rust branch, because C is "row-first" while Fortran is "column-first".
+% https://numpy.org/doc/stable/dev/internals.html
+fwrite(f, [c, k, s, t], "double");
 fclose(f);
 ```
 
