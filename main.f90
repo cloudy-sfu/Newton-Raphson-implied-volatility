@@ -3,11 +3,10 @@ program main
     ! 1. All values (s, k, t, r, c) are positive.
     ! 2. There is a root, i.e. call_value(..., sigma=0) < 0
     ! Observations that do not satisfy assumptions are picked out in pre-processing.
-    use get_data_mod
-    use call_value_mod
-    use call_vega_mod
+    use get_data
+    use bsm
     use, intrinsic :: ieee_arithmetic
-    use nanmse_mod
+    use metrics
 
     ! define constants
     implicit none
@@ -23,7 +22,7 @@ program main
 
     ! get data (modify on input variables)
     ! file token 0 is used.
-    call get_data(n, r, c, k, s, t)
+    call from_bin(n, r, c, k, s, t)
     allocate(vega(n, max_iteration), sigma(n, max_iteration + 1), &
       c_hat(n, max_iteration + 1))
 

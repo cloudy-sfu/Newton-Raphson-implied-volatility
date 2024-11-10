@@ -1,10 +1,10 @@
-module get_data_mod
+module get_data
     implicit none
     integer :: f = 0
     
 contains
     ! function doesn't support multiple returned values, so it must be subroutine
-    subroutine get_data(n, r, c, k, s, t)
+    subroutine from_bin(n, r, c, k, s, t)
         integer :: n, ierr
         real(8) :: r
         real(8), allocatable :: c(:), k(:), s(:), t(:)
@@ -73,4 +73,4 @@ contains
         close(f)
         f = f + 1
     end subroutine
-end module get_data_mod
+end module get_data
